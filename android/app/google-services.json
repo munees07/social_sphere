@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "258091654623",
+    "project_id": "social-sphere-74efc",
+    "storage_bucket": "social-sphere-74efc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258091654623:android:c1a844c5e5aadafcb8f86a",
+        "android_client_info": {
+          "package_name": "com.example.social_sphere"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXyadTGTpxhll6_6tAhIiT2BVSG-Z1VsA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
