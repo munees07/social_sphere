@@ -102,6 +102,24 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                 SquareTile(imagePath: 'assets/images/github.png')
               ],
             ),
+            const Gap(40),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Not a member?',
+                  style: TextStyle(color: Colors.grey[700]),
+                ),
+                const SizedBox(width: 4),
+                const Text(
+                  'Register now',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ))),
