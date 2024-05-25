@@ -9,11 +9,11 @@ class ButtonWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {},
       child: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         width: double.infinity,
         decoration: BoxDecoration(
             color: Colors.black, borderRadius: BorderRadius.circular(8)),
-        child: Center(
+        child: const Center(
           child: Text(
             'Sign In',
             style: TextStyle(

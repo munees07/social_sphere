@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(theme: ThemeData(fontFamily: 'Exo2'),
       debugShowCheckedModeBanner: false,
-      home: AuthenticationScreen(),
+      home: const AuthenticationScreen(),
     );
   }
 }

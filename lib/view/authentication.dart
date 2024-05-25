@@ -25,17 +25,17 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: Column(
           children: [
-            Gap(25),
-            Text(
+            const Gap(25),
+            const Text(
               'Social Sphere',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
             ),
-            Gap(30),
-            Icon(
+            const Gap(30),
+            const Icon(
               Icons.lock,
               size: 80,
             ),
-            Gap(35),
+            const Gap(35),
             Text(
               'Welcome back you\'ve been missed!',
               style: TextStyle(
@@ -43,26 +43,26 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                   fontWeight: FontWeight.bold,
                   fontSize: 15),
             ),
-            Gap(40),
+            const Gap(40),
             TextFieldWidget(
               controller: emailController,
               hintText: 'Email',
               obsecureText: false,
             ),
-            Gap(15),
+            const Gap(15),
             TextFieldWidget(
               controller: passworController,
               hintText: 'Password',
               obsecureText: true,
             ),
-            Gap(5),
+            const Gap(5),
             Align(
                 alignment: Alignment.centerRight,
                 child: Text(
                   'Forgot Password?',
                   style: TextStyle(color: Colors.grey[700]),
                 )),
-            Gap(30),
+            const Gap(30),
             ButtonWidget(
               onTap: () {},
             ),
@@ -94,9 +94,9 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
               ),
             ),
             const SizedBox(height: 40),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 SquareTile(imagePath: 'assets/images/google.png'),
                 SizedBox(width: 25),
                 SquareTile(imagePath: 'assets/images/github.png')
