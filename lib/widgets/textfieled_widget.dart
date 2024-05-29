@@ -20,12 +20,12 @@ class TextFieldWidget extends StatelessWidget {
       decoration: InputDecoration(
           hintText: hintText,
           hintStyle: TextStyle(color: Colors.grey[500]),
-          fillColor: Colors.grey[200],
+          fillColor: Colors.lightBlueAccent.withOpacity(0.2),
           filled: true,
-          enabledBorder:
-              const OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-          focusedBorder:
-              const OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),
+          enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white)),
+          focusedBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey))),
     );
   }
 }
