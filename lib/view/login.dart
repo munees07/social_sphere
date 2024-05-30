@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -100,7 +102,7 @@ class _LoginState extends State<Login> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SquareTile(onTap: () => AuthServices().signInWithGoogle(),imagePath: 'assets/images/google.png'),
-                  SizedBox(width: 25),
+                  const SizedBox(width: 25),
                   SquareTile(onTap: () => AuthServices().signInWithGit(),imagePath: 'assets/images/github.png')
                 ],
               ),
@@ -136,7 +138,7 @@ class _LoginState extends State<Login> {
     showDialog(
       context: context,
       builder: (context) {
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },

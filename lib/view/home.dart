@@ -19,7 +19,7 @@ class Home extends StatelessWidget {
         ],
       ),
       body: Center(
-        child: Text('Logged as: '+user.email!),
+        child: Text('Logged as: ${user.email!}'),
       ),
     );
   }

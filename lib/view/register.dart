@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -101,7 +103,7 @@ class _RegisterState extends State<Register> {
                   SquareTile(
                       onTap: () => AuthServices().signInWithGoogle(),
                       imagePath: 'assets/images/google.png'),
-                  SizedBox(width: 25),
+                  const SizedBox(width: 25),
                   SquareTile(
                       onTap: () => AuthServices().signInWithGit(),
                       imagePath: 'assets/images/github.png')
@@ -139,7 +141,7 @@ class _RegisterState extends State<Register> {
     showDialog(
       context: context,
       builder: (context) {
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },
