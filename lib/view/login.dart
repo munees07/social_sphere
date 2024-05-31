@@ -98,12 +98,16 @@ class _LoginState extends State<Login> {
                 ),
               ),
               const SizedBox(height: 40),
-               Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SquareTile(onTap: () => AuthServices().signInWithGoogle(),imagePath: 'assets/images/google.png'),
+                  SquareTile(
+                      onTap: () => AuthServices().signInWithGoogle(),
+                      imagePath: 'assets/images/google.png'),
                   const SizedBox(width: 25),
-                  SquareTile(onTap: () => AuthServices().signInWithGit(),imagePath: 'assets/images/github.png')
+                  SquareTile(
+                      onTap: () => AuthServices().signInWithGit(),
+                      imagePath: 'assets/images/github.png')
                 ],
               ),
               const Gap(40),

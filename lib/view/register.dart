@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:social_sphere/service/auth_services.dart';
+import 'package:social_sphere/service/firestore_services.dart';
 import 'package:social_sphere/widgets/button_widget.dart';
 import 'package:social_sphere/widgets/textfieled_widget.dart';
 import 'package:social_sphere/widgets/tile_widget.dart';
@@ -18,6 +19,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final emailController = TextEditingController();
+  final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPassController = TextEditingController();
   @override
@@ -57,6 +59,12 @@ class _RegisterState extends State<Register> {
               ),
               const Gap(15),
               TextFieldWidget(
+                controller: usernameController,
+                hintText: 'UserName',
+                obsecureText: false,
+              ),
+              const Gap(15),
+              TextFieldWidget(
                 controller: passwordController,
                 hintText: 'Password',
                 obsecureText: true,
@@ -68,7 +76,15 @@ class _RegisterState extends State<Register> {
                 obsecureText: true,
               ),
               const Gap(30),
-              ButtonWidget(text: 'Sign Up', onTap: signUp),
+              ButtonWidget(
+                  text: 'Sign Up',
+                  onTap: () {
+                    signUp(
+                        email: emailController.text,
+                        password: passwordController.text,
+                        passwordConfirme: confirmPassController.text,
+                        username: usernameController.text);
+                  }),
               const SizedBox(height: 40),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -137,25 +153,36 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  void signUp() async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
+  void signUp(
+      {required String email,
+      required String password,
+      required String passwordConfirme,
+      required String username}) async {
+    // showDialog(
+    //   context: context,
+    //   builder: (context) {
+    //     return const Center(
+    //       child: CircularProgressIndicator(),
+    //     );
+    //   },
+    // );
     try {
-      if (passwordController.text == confirmPassController.text) {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: emailController.text, password: passwordController.text);
+      if (email.isNotEmpty && password.isNotEmpty && username.isNotEmpty) {
+        if (password == passwordConfirme) {
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+              email: email.trim(), password: password.trim());
+
+          await FirestoreServices()
+              .createUser(email: email, username: username);
+        } else {
+          showError("password don't match");
+        }
+        // Navigator.pop(context);
       } else {
-        showError("password don't match");
+        showError('enter all fields');
       }
-      Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
+      // Navigator.pop(context);
       showError(e.code);
     }
   }
