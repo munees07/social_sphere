@@ -5,6 +5,6 @@ class FollowScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('Follow'),),);
+    return const Scaffold(body: Center(child: Text('Follow'),),);
   }
 }
