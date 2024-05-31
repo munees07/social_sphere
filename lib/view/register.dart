@@ -38,12 +38,7 @@ class _RegisterState extends State<Register> {
                 'Social Sphere',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
               ),
-              const Gap(30),
-              const Icon(
-                Icons.lock,
-                size: 50,
-              ),
-              const Gap(25),
+              const Gap(20),
               Text(
                 'Let\'s create an account!',
                 style: TextStyle(

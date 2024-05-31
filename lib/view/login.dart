@@ -38,12 +38,12 @@ class _LoginState extends State<Login> {
               ),
               const Gap(30),
               const Icon(
-                Icons.lock,
+                Icons.login,
                 size: 80,
               ),
               const Gap(35),
               Text(
-                'Welcome back you\'ve been missed!',
+                'Welcome back!',
                 style: TextStyle(
                     color: Colors.grey[600],
                     fontWeight: FontWeight.bold,

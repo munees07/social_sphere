@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:social_sphere/controller/bottombar_provider.dart';
 import 'package:social_sphere/firebase_options.dart';
 import 'package:social_sphere/view/auth.dart';
 
@@ -14,10 +16,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(fontFamily: 'Exo2'),
-      debugShowCheckedModeBanner: false,
-      home: const AuthPage(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => BottomBarProvider(),
+        )
+      ],
+      child: MaterialApp(
+        theme: ThemeData(fontFamily: 'Exo2'),
+        debugShowCheckedModeBanner: false,
+        home: const AuthPage(),
+      ),
     );
   }
 }
