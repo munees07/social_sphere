@@ -1,10 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
+import 'package:social_sphere/controller/signup_provider.dart';
 import 'package:social_sphere/service/auth_services.dart';
-import 'package:social_sphere/service/firestore_services.dart';
+import 'package:social_sphere/view/bottomnav.dart';
 import 'package:social_sphere/widgets/button_widget.dart';
 import 'package:social_sphere/widgets/textfieled_widget.dart';
 import 'package:social_sphere/widgets/tile_widget.dart';
@@ -18,10 +22,11 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  final AuthServices _auth = AuthServices();
   final emailController = TextEditingController();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-  final confirmPassController = TextEditingController();
+  File? _selectedImage;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,12 +38,12 @@ class _RegisterState extends State<Register> {
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Column(
             children: [
-              const Gap(25),
+              const Gap(15),
               const Text(
                 'Social Sphere',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
               ),
-              const Gap(20),
+              const Gap(10),
               Text(
                 'Let\'s create an account!',
                 style: TextStyle(
@@ -46,7 +51,56 @@ class _RegisterState extends State<Register> {
                     fontWeight: FontWeight.bold,
                     fontSize: 15),
               ),
-              const Gap(40),
+              const Gap(10),
+              Consumer<SgupPageController>(builder: (context, pro, _) {
+                return FutureBuilder<File?>(
+                  future: Future.value(pro.pickedImage),
+                  builder: (context, snapshot) {
+                    _selectedImage = snapshot.data;
+                    return Container(
+                      height: 100,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(70),
+                        image: snapshot.data != null
+                            ? DecorationImage(
+                                image: FileImage(snapshot.data!),
+                                fit: BoxFit.cover,
+                              )
+                            : null,
+                      ),
+                      child: snapshot.data == null
+                          ? Center(
+                              child: Text(
+                                "No image",
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 16,
+                                ),
+                              ),
+                            )
+                          : null,
+                    );
+                  },
+                );
+              }),
+              const Gap(15),
+              ElevatedButton(
+                onPressed: () {
+                  Provider.of<SgupPageController>(context, listen: false)
+                      .pickImg();
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.black,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: const Text("Add Picture"),
+              ),
+              const Gap(10),
               TextFieldWidget(
                 controller: emailController,
                 hintText: 'Email',
@@ -64,23 +118,13 @@ class _RegisterState extends State<Register> {
                 hintText: 'Password',
                 obsecureText: true,
               ),
-              const Gap(15),
-              TextFieldWidget(
-                controller: confirmPassController,
-                hintText: 'Confirm Password',
-                obsecureText: true,
-              ),
-              const Gap(30),
+              const Gap(20),
               ButtonWidget(
                   text: 'Sign Up',
                   onTap: () {
-                    signUp(
-                        email: emailController.text,
-                        password: passwordController.text,
-                        passwordConfirme: confirmPassController.text,
-                        username: usernameController.text);
+                    signUp();
                   }),
-              const SizedBox(height: 40),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
@@ -148,50 +192,26 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  void signUp(
-      {required String email,
-      required String password,
-      required String passwordConfirme,
-      required String username}) async {
-    // showDialog(
-    //   context: context,
-    //   builder: (context) {
-    //     return const Center(
-    //       child: CircularProgressIndicator(),
-    //     );
-    //   },
-    // );
-    try {
-      if (email.isNotEmpty && password.isNotEmpty && username.isNotEmpty) {
-        if (password == passwordConfirme) {
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-              email: email.trim(), password: password.trim());
+  void signUp() async {
+    String username = usernameController.text;
+    String email = emailController.text;
+    String password = passwordController.text;
 
-          await FirestoreServices()
-              .createUser(email: email, username: username);
-        } else {
-          showError("password don't match");
-        }
-        // Navigator.pop(context);
-      } else {
-        showError('enter all fields');
+    if (_selectedImage != null) {
+      await _auth.addImage(_selectedImage!, context);
+      String imageUrl = _auth.url;
+
+      User? user = await _auth.signupWithEmailAndPassword(
+          context, username, email, password, imageUrl);
+
+      if (user != null) {
+        print("User is successful");
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const BottomNav(),
+        ));
       }
-    } on FirebaseAuthException catch (e) {
-      // Navigator.pop(context);
-      showError(e.code);
+    } else {
+      _auth.showSnackBar(context, "Please select an image");
     }
-  }
-
-  void showError(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Center(
-            child: Text(message),
-          ),
-        );
-      },
-    );
   }
 }

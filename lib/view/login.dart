@@ -4,13 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:social_sphere/service/auth_services.dart';
+import 'package:social_sphere/view/bottomnav.dart';
 import 'package:social_sphere/widgets/button_widget.dart';
 import 'package:social_sphere/widgets/textfieled_widget.dart';
 import 'package:social_sphere/widgets/tile_widget.dart';
 
 class Login extends StatefulWidget {
   final Function()? onTap;
-  const Login({super.key, required this.onTap});
+  const Login({super.key,  this.onTap});
 
   @override
   State<Login> createState() => _LoginState();
@@ -19,7 +20,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final emailController = TextEditingController();
   final passworController = TextEditingController();
-  final usernameController = TextEditingController();
+
+  bool isSigning=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,10 +39,7 @@ class _LoginState extends State<Login> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
               ),
               const Gap(30),
-              const Icon(
-                Icons.login,
-                size: 80,
-              ),
+              const Icon(Icons.login, size: 80),
               const Gap(35),
               Text(
                 'Welcome back!',
@@ -69,7 +68,9 @@ class _LoginState extends State<Login> {
                     style: TextStyle(color: Colors.grey[700]),
                   )),
               const Gap(25),
-              ButtonWidget(text: 'Sign In', onTap: signIn),
+              ButtonWidget(text: 'Sign In', onTap: (){
+                login(context);
+              }),
               const SizedBox(height: 40),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -137,36 +138,62 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+  void login(BuildContext context) async {
+    setState(() {
+      isSigning = true;
+    });
+    AuthServices auth = AuthServices();
+    String email = emailController.text;
+    String password = passworController.text;
 
-  void signIn() async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passworController.text);
-      Navigator.pop(context);
-    } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
-      showError(e.code);
+    User? user = await auth.signinWithEmailAndPassword(context,email, password,);
+
+    setState(() {
+      isSigning = false;
+    });
+
+    if (user != null) {
+      print("user secssus full login");
+       Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => const BottomNav(),
+        ),
+        (route) => false,
+      );
+    } else {
+      print("some error happend");
     }
   }
 
-  void showError(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Center(
-            child: Text(message),
-          ),
-        );
-      },
-    );
-  }
+  // void signIn() async {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return const Center(
+  //         child: CircularProgressIndicator(),
+  //       );
+  //     },
+  //   );
+  //   try {
+  //     await FirebaseAuth.instance.signInWithEmailAndPassword(
+  //         email: emailController.text, password: passworController.text);
+  //     Navigator.pop(context);
+  //   } on FirebaseAuthException catch (e) {
+  //     Navigator.pop(context);
+  //     showError(e.code);
+  //   }
+  // }
+
+  // void showError(String message) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return AlertDialog(
+  //         title: Center(
+  //           child: Text(message),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 }

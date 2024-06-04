@@ -1,10 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatelessWidget {
-   Home({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
-  final user= FirebaseAuth.instance.currentUser!;
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final user = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +19,7 @@ class Home extends StatelessWidget {
           IconButton(
               onPressed: () {
                 signOut();
+                setState(() {});
               },
               icon: const Icon(Icons.logout))
         ],
