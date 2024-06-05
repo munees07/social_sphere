@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_sphere/controller/bottombar_provider.dart';
+import 'package:social_sphere/controller/home_provider.dart';
 import 'package:social_sphere/controller/image_provider.dart';
 import 'package:social_sphere/controller/signup_provider.dart';
 import 'package:social_sphere/firebase_options.dart';
@@ -21,8 +22,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => BottomBarProvider()),
-        ChangeNotifierProvider(create: (context) => SgupPageController()),
-        ChangeNotifierProvider(create: (context) => ImagesProvider())
+        ChangeNotifierProvider(create: (context) => SignupProvider()),
+        ChangeNotifierProvider(create: (context) => ImagesProvider()),
+        ChangeNotifierProvider(create: (context) => HomeProvider())
       ],
       child: MaterialApp(
         theme: ThemeData(fontFamily: 'Exo2'),

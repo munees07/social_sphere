@@ -9,8 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:social_sphere/model/usermodel.dart';
 
-class AuthServices{
-
+class AuthServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -20,12 +19,12 @@ class AuthServices{
 
   String collectionRef = "users";
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  late CollectionReference<UserModel> postImgRef =
-      firestore.collection(collectionRef).withConverter<UserModel>(
-            fromFirestore: (snapshot, options) =>
-                UserModel.fromJson(snapshot.data() ?? {}),
-            toFirestore: (value, options) => value.toJson(),
-          );
+  late CollectionReference<UserModel> postImgRef = firestore
+      .collection(collectionRef)
+      .withConverter<UserModel>(
+          fromFirestore: (snapshot, options) =>
+              UserModel.fromJson(snapshot.data() ?? {}),
+          toFirestore: (value, options) => value.toJson());
 
   Future<void> addImage(File image, BuildContext context) async {
     Reference imageFolder = firebaseStorage.child("images");
@@ -38,30 +37,8 @@ class AuthServices{
     }
   }
 
-  Future updateImage(
-      String imageUrl, File updateImage, BuildContext context) async {
-    try {
-      Reference editImageRef = FirebaseStorage.instance.refFromURL(imageUrl);
-      await editImageRef.putFile(updateImage);
-      String newUrl = await editImageRef.getDownloadURL();
-      return newUrl;
-    } catch (e) {
-      showSnackBar(context, 'Failed to update image: ${e.toString()}');
-      return null;
-    }
-  }
-
-  Future<void> deleteImage(String imageUrl, BuildContext context) async {
-    try {
-      Reference delete = FirebaseStorage.instance.refFromURL(imageUrl);
-      await delete.delete();
-    } catch (e) {
-      showSnackBar(context, 'Failed to delete image: ${e.toString()}');
-    }
-  }
-
-  Future<User?> signupWithEmailAndPassword(
-      BuildContext context, String username, String email, String password, String imageUrl) async {
+  Future<User?> signupWithEmailAndPassword(BuildContext context,
+      String username, String email, String password, String imageUrl) async {
     try {
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -77,7 +54,10 @@ class AuthServices{
           image: imageUrl,
         );
 
-        await _firestore.collection('users').doc(user.uid).set(newUser.toJson());
+        await _firestore
+            .collection('users')
+            .doc(user.uid)
+            .set(newUser.toJson());
 
         await sendEmailVerification(context);
 
@@ -115,24 +95,20 @@ class AuthServices{
   }
 
   void showSnackBar(BuildContext context, String message) {
-  final snackBar = SnackBar(content: Text(message));
-  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-}
+    final snackBar = SnackBar(content: Text(message));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 
-  signInWithGoogle()async{
-    final GoogleSignInAccount? gUser=await GoogleSignIn().signIn();
+  signInWithGoogle() async {
+    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
 
-    final GoogleSignInAuthentication gAuth=await gUser!.authentication;
+    final GoogleSignInAuthentication gAuth = await gUser!.authentication;
 
-    final credential=GoogleAuthProvider.credential(accessToken: gAuth.accessToken,idToken: gAuth.idToken);
+    final credential = GoogleAuthProvider.credential(
+        accessToken: gAuth.accessToken, idToken: gAuth.idToken);
 
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
-  signInWithGit()async{
-    
-  }
 
-
-  
-
+  signInWithGit() async {}
 }

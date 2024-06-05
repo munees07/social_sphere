@@ -9,7 +9,6 @@ class FollowService {
   Future<void> followUser(String followUserId) async {
     String currentUserId = _auth.currentUser!.uid;
 
-   
     await _firestore
         .collection('followers')
         .doc(currentUserId)
@@ -17,7 +16,6 @@ class FollowService {
         .doc(followUserId)
         .set({'followed': true});
 
-   
     await _firestore.collection('users').doc(followUserId).update({
       'followers': FieldValue.increment(1),
     });
@@ -30,7 +28,6 @@ class FollowService {
   Future<void> unfollowUser(String unfollowUserId) async {
     String currentUserId = _auth.currentUser!.uid;
 
- 
     await _firestore
         .collection('followers')
         .doc(currentUserId)
@@ -38,7 +35,6 @@ class FollowService {
         .doc(unfollowUserId)
         .delete();
 
-    
     await _firestore.collection('users').doc(unfollowUserId).update({
       'followers': FieldValue.increment(-1),
     });

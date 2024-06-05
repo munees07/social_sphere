@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -153,7 +153,7 @@ class _LoginState extends State<Login> {
     });
 
     if (user != null) {
-      print("user secssus full login");
+      print("user successfully logined");
        Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (context) => const BottomNav(),
@@ -164,36 +164,4 @@ class _LoginState extends State<Login> {
       print("some error happend");
     }
   }
-
-  // void signIn() async {
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return const Center(
-  //         child: CircularProgressIndicator(),
-  //       );
-  //     },
-  //   );
-  //   try {
-  //     await FirebaseAuth.instance.signInWithEmailAndPassword(
-  //         email: emailController.text, password: passworController.text);
-  //     Navigator.pop(context);
-  //   } on FirebaseAuthException catch (e) {
-  //     Navigator.pop(context);
-  //     showError(e.code);
-  //   }
-  // }
-
-  // void showError(String message) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return AlertDialog(
-  //         title: Center(
-  //           child: Text(message),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 }

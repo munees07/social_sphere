@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:social_sphere/model/image_post_model.dart';
+import 'package:social_sphere/model/postimage_model.dart';
 import 'package:social_sphere/model/usermodel.dart';
 import 'package:social_sphere/service/follow_services.dart';
 import 'package:social_sphere/service/image_service.dart';
@@ -26,11 +26,9 @@ class Profile extends StatelessWidget {
                   Row(
                     children: [
                       const Gap(45),
-                      Text(
-                        user?.username.toString().toUpperCase() ?? "",
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
+                      Text(user?.username.toString().toUpperCase() ?? "",
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold)),
                     ],
                   ),
                   const Gap(30),
@@ -40,10 +38,8 @@ class Profile extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           CircleAvatar(
-                            maxRadius: 40,
-                            backgroundImage:
-                                NetworkImage(user?.image.toString() ?? ""),
-                          ),
+                              maxRadius: 40,
+                              backgroundImage: getImage(user?.image)),
                           Column(
                             children: [
                               const Text("FOLLOWERS"),
@@ -58,35 +54,6 @@ class Profile extends StatelessWidget {
                           )
                         ],
                       ),
-                      // Row(
-                      //   children: [
-                      //     const Gap(160),
-                      //     InkWell(
-                      //       onTap: () {
-                      //         FirebaseAuth.instance.signOut();
-                      //         Navigator.of(context)
-                      //             .pushReplacement(MaterialPageRoute(
-                      //           builder: (context) => const Login(),
-                      //         ));
-                      //       },
-                      //       child: Container(
-                      //         decoration: BoxDecoration(
-                      //           borderRadius: BorderRadius.circular(20),
-                      //           color: Colors.black.withOpacity(0.7),
-                      //         ),
-                      //         width: width * 0.5,
-                      //         height: height * 0.04,
-                      //         child: const Center(
-                      //             child: Text(
-                      //           "Sign Out",
-                      //           style: TextStyle(
-                      //               color: Colors.white,
-                      //               fontWeight: FontWeight.bold),
-                      //         )),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // )
                     ],
                   ),
                   Expanded(
@@ -137,9 +104,8 @@ class Profile extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: Image.network(
-                                          post.image.toString(),
-                                          fit: BoxFit.cover,
-                                        ),
+                                            post.image.toString(),
+                                            fit: BoxFit.cover),
                                       ),
                                     ],
                                   ),
@@ -170,5 +136,15 @@ class Profile extends StatelessWidget {
             }),
       ),
     );
+  }
+
+  ImageProvider getImage(String? imageUrl) {
+    if (imageUrl != null &&
+        imageUrl.isNotEmpty &&
+        Uri.tryParse(imageUrl)?.hasAbsolutePath == true) {
+      return NetworkImage(imageUrl);
+    } else {
+      return const AssetImage('assets/images/avatar-3814049_1920.png');
+    }
   }
 }

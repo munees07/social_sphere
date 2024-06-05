@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'dart:io';
 
@@ -52,7 +52,7 @@ class _RegisterState extends State<Register> {
                     fontSize: 15),
               ),
               const Gap(10),
-              Consumer<SgupPageController>(builder: (context, pro, _) {
+              Consumer<SignupProvider>(builder: (context, pro, _) {
                 return FutureBuilder<File?>(
                   future: Future.value(pro.pickedImage),
                   builder: (context, snapshot) {
@@ -88,8 +88,7 @@ class _RegisterState extends State<Register> {
               const Gap(15),
               ElevatedButton(
                 onPressed: () {
-                  Provider.of<SgupPageController>(context, listen: false)
-                      .pickImg();
+                  Provider.of<SignupProvider>(context, listen: false).pickImg();
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
@@ -205,7 +204,7 @@ class _RegisterState extends State<Register> {
           context, username, email, password, imageUrl);
 
       if (user != null) {
-        print("User is successful");
+        print("successfully Registered");
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const BottomNav(),
         ));

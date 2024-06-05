@@ -1,11 +1,13 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_sphere/controller/image_provider.dart';
-import 'package:social_sphere/model/image_post_model.dart';
+import 'package:social_sphere/model/postimage_model.dart';
+import 'package:social_sphere/model/usermodel.dart';
+import 'package:social_sphere/service/follow_services.dart';
 import 'package:social_sphere/service/image_service.dart';
 
 class PostScreen extends StatelessWidget {
@@ -74,20 +76,6 @@ class PostScreen extends StatelessWidget {
                     );
                   }),
                   const SizedBox(height: 20),
-                  // ElevatedButton(
-                  //   onPressed: () {
-
-                  //   },
-                  //   style: ElevatedButton.styleFrom(
-                  //     foregroundColor: Colors.white,
-                  //     backgroundColor: Colors.black,
-                  //     shape: RoundedRectangleBorder(
-                  //       borderRadius: BorderRadius.circular(8),
-                  //     ),
-                  //   ),
-                  //   child: const Text("Add Picture"),
-                  // ),
-                  // const SizedBox(height: 20),
                   TextFormField(
                     controller: descriptionCtrl,
                     maxLines: 3,
@@ -101,7 +89,7 @@ class PostScreen extends StatelessWidget {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
-                      add(context);
+                      addPst(context);
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
@@ -123,8 +111,9 @@ class PostScreen extends StatelessWidget {
     );
   }
 
-  add(BuildContext context) async {
+  addPst(BuildContext context) async {
     final user = FirebaseAuth.instance.currentUser!.uid;
+    UserModel? username = await FollowService().getUserData(user);
     ImagePostService services = ImagePostService();
     final imageProvider = Provider.of<ImagesProvider>(context, listen: false);
 
@@ -132,7 +121,11 @@ class PostScreen extends StatelessWidget {
       await services.addImage(File(imageProvider.pickedImage!.path), context);
 
       ImagePostModel imModel = ImagePostModel(
-          image: services.url, description: descriptionCtrl.text, uid: user);
+          image: services.url,
+          description: descriptionCtrl.text,
+          uid: user,
+          username: username!.username.toString(),
+          userImage: username.image);
 
       await services.addPost(imModel);
     } else {

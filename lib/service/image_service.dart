@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:social_sphere/model/image_post_model.dart';
+import 'package:social_sphere/model/postimage_model.dart';
 
 class ImagePostService {
   String imageName = DateTime.now().microsecondsSinceEpoch.toString();
@@ -29,19 +29,6 @@ class ImagePostService {
       url = await uploadedImage.getDownloadURL();
     } catch (e) {
       _showErrorMessage(context, 'Failed to upload image: ${e.toString()}');
-    }
-  }
-
-  Future updateImage(
-      String imageUrl, File updateImage, BuildContext context) async {
-    try {
-      Reference editImageRef = FirebaseStorage.instance.refFromURL(imageUrl);
-      await editImageRef.putFile(updateImage);
-      String newUrl = await editImageRef.getDownloadURL();
-      return newUrl;
-    } catch (e) {
-      _showErrorMessage(context, 'Failed to update image: ${e.toString()}');
-      return null;
     }
   }
 
