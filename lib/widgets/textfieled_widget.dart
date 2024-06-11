@@ -20,7 +20,7 @@ class TextFieldWidget extends StatelessWidget {
       decoration: InputDecoration(
           hintText: hintText,
           hintStyle: TextStyle(color: Colors.grey[500]),
-          fillColor: Colors.lightBlueAccent.withOpacity(0.2),
+          fillColor: Colors.grey.withOpacity(0.2),
           filled: true,
           enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey)),

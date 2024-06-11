@@ -46,7 +46,7 @@ class PostScreen extends StatelessWidget {
                             height: height * 0.4,
                             width: width,
                             decoration: BoxDecoration(
-                              color: Colors.lightBlueAccent.withOpacity(0.1),
+                              color: Colors.grey.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(
                                 color: Colors.grey,

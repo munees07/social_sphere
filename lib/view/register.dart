@@ -9,24 +9,26 @@ import 'package:provider/provider.dart';
 import 'package:social_sphere/controller/signup_provider.dart';
 import 'package:social_sphere/service/auth_services.dart';
 import 'package:social_sphere/view/bottomnav.dart';
+import 'package:social_sphere/view/otp_verifiy.dart';
 import 'package:social_sphere/widgets/button_widget.dart';
 import 'package:social_sphere/widgets/textfieled_widget.dart';
 import 'package:social_sphere/widgets/tile_widget.dart';
 
-class Register extends StatefulWidget {
+// ignore: must_be_immutable
+class Register extends StatelessWidget {
   final Function()? onTap;
-  const Register({super.key, required this.onTap});
+   Register({super.key, required this.onTap});
 
-  @override
-  State<Register> createState() => _RegisterState();
-}
-
-class _RegisterState extends State<Register> {
   final AuthServices _auth = AuthServices();
+
   final emailController = TextEditingController();
+
   final usernameController = TextEditingController();
+
   final passwordController = TextEditingController();
+
   File? _selectedImage;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,7 +123,7 @@ class _RegisterState extends State<Register> {
               ButtonWidget(
                   text: 'Sign Up',
                   onTap: () {
-                    signUp();
+                    signUp(context);
                   }),
               const SizedBox(height: 20),
               Padding(
@@ -159,8 +161,10 @@ class _RegisterState extends State<Register> {
                       imagePath: 'assets/images/google.png'),
                   const SizedBox(width: 25),
                   SquareTile(
-                      onTap: () => AuthServices().signInWithGit(),
-                      imagePath: 'assets/images/github.png')
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => PhoneOtpPage(),
+                          )),
+                      imagePath: 'assets/images/phone.png')
                 ],
               ),
               const Gap(40),
@@ -173,7 +177,7 @@ class _RegisterState extends State<Register> {
                   ),
                   const SizedBox(width: 4),
                   GestureDetector(
-                    onTap: widget.onTap,
+                    onTap: onTap,
                     child: const Text(
                       'Login now',
                       style: TextStyle(
@@ -191,7 +195,7 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  void signUp() async {
+  void signUp(BuildContext context) async {
     String username = usernameController.text;
     String email = emailController.text;
     String password = passwordController.text;

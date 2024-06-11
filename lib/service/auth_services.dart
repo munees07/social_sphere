@@ -47,12 +47,13 @@ class AuthServices {
 
       if (user != null) {
         UserModel newUser = UserModel(
-          username: username,
-          email: email,
-          uid: user.uid,
-          password: password,
-          image: imageUrl,
-        );
+            username: username,
+            email: email,
+            uid: user.uid,
+            password: password,
+            image: imageUrl,
+            followers: 0,
+            following: 0);
 
         await _firestore
             .collection('users')

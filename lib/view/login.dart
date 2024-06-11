@@ -1,31 +1,31 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print
+// ignore_for_file: use_build_context_synchronously, avoid_print, must_be_immutable
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
+import 'package:social_sphere/controller/signup_provider.dart';
 import 'package:social_sphere/service/auth_services.dart';
 import 'package:social_sphere/view/bottomnav.dart';
+import 'package:social_sphere/view/otp_verifiy.dart';
 import 'package:social_sphere/widgets/button_widget.dart';
 import 'package:social_sphere/widgets/textfieled_widget.dart';
 import 'package:social_sphere/widgets/tile_widget.dart';
 
-class Login extends StatefulWidget {
+class Login extends StatelessWidget {
   final Function()? onTap;
-  const Login({super.key,  this.onTap});
+  Login({super.key, this.onTap});
 
-  @override
-  State<Login> createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
   final emailController = TextEditingController();
+
   final passworController = TextEditingController();
 
-  bool isSigning=false;
+  bool isSigning = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlueAccent.withOpacity(0.2),
+      backgroundColor: Colors.grey.withOpacity(0.2),
       body: SingleChildScrollView(
         child: SafeArea(
             child: Center(
@@ -68,9 +68,11 @@ class _LoginState extends State<Login> {
                     style: TextStyle(color: Colors.grey[700]),
                   )),
               const Gap(25),
-              ButtonWidget(text: 'Sign In', onTap: (){
-                login(context);
-              }),
+              ButtonWidget(
+                  text: 'Sign In',
+                  onTap: () {
+                    login(context);
+                  }),
               const SizedBox(height: 40),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -107,8 +109,10 @@ class _LoginState extends State<Login> {
                       imagePath: 'assets/images/google.png'),
                   const SizedBox(width: 25),
                   SquareTile(
-                      onTap: () => AuthServices().signInWithGit(),
-                      imagePath: 'assets/images/github.png')
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => PhoneOtpPage(),
+                          )),
+                      imagePath: 'assets/images/phone.png')
                 ],
               ),
               const Gap(40),
@@ -121,7 +125,7 @@ class _LoginState extends State<Login> {
                   ),
                   const SizedBox(width: 4),
                   GestureDetector(
-                    onTap: widget.onTap,
+                    onTap: onTap,
                     child: const Text(
                       'Register now',
                       style: TextStyle(
@@ -138,23 +142,25 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
   void login(BuildContext context) async {
-    setState(() {
-      isSigning = true;
-    });
+    final provider = Provider.of<SignupProvider>(context, listen: false);
+    provider.isSignedIn();
+
     AuthServices auth = AuthServices();
     String email = emailController.text;
     String password = passworController.text;
 
-    User? user = await auth.signinWithEmailAndPassword(context,email, password,);
+    User? user = await auth.signinWithEmailAndPassword(
+      context,
+      email,
+      password,
+    );
 
-    setState(() {
-      isSigning = false;
-    });
-
+    provider.isSignedIn();
     if (user != null) {
       print("user successfully logined");
-       Navigator.of(context).pushAndRemoveUntil(
+      Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (context) => const BottomNav(),
         ),

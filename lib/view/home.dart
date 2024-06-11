@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:social_sphere/controller/home_provider.dart';
+import 'package:social_sphere/controller/signup_provider.dart';
 import 'package:social_sphere/model/postimage_model.dart';
 import 'package:social_sphere/service/image_service.dart';
 
@@ -26,7 +27,7 @@ class _HomeState extends State<Home> {
             IconButton(
                 onPressed: () {
                   signOut();
-                  setState(() {});
+                  Provider.of<SignupProvider>(context, listen: false).signout();
                 },
                 icon: const Icon(Icons.logout))
           ],
@@ -59,7 +60,8 @@ class _HomeState extends State<Home> {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Card(
-                      elevation: 0,
+                      color: Colors.grey[100],
+                      elevation: 10,
                       child: Column(
                         children: [
                           Column(

@@ -42,7 +42,7 @@ class AllUserPage extends StatelessWidget {
                           border:
                               Border.all(color: Colors.grey.withOpacity(0.3)),
                           borderRadius: BorderRadius.circular(10),
-                          color: Colors.lightBlueAccent.withOpacity(0.1)),
+                          color: Colors.grey.withOpacity(0.1)),
                       child: ListTile(
                         contentPadding: const EdgeInsets.all(15),
                         leading: CircleAvatar(
