@@ -12,9 +12,9 @@ class BottomBarProvider extends ChangeNotifier {
   }
 
   final List pages = [
-     const Home(),
-     PostScreen(),
-    const AllUserPage(),
+    const Home(),
+    PostScreen(),
+    AllUserPage(),
     const Profile()
   ];
 }

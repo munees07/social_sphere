@@ -17,7 +17,7 @@ class Profile extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.only(top: 70),
         child: FutureBuilder<UserModel?>(
-            future: FollowService().getUserData(user),
+            future: FollowService().getUserData(context,user),
             builder: (context, snapshot) {
               UserModel? user = snapshot.data;
               return Column(

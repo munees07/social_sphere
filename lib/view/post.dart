@@ -1,26 +1,19 @@
 // ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_sphere/controller/image_provider.dart';
-import 'package:social_sphere/model/postimage_model.dart';
-import 'package:social_sphere/model/usermodel.dart';
-import 'package:social_sphere/service/follow_services.dart';
-import 'package:social_sphere/service/image_service.dart';
 
 class PostScreen extends StatelessWidget {
   String? email;
   PostScreen({super.key, this.email});
 
-  TextEditingController descriptionCtrl = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-
+    final provider = Provider.of<ImagesProvider>(context, listen: false);
     return SafeArea(
       child: PopScope(
         child: Scaffold(
@@ -39,8 +32,7 @@ class PostScreen extends StatelessWidget {
                       builder: (context, snapshot) {
                         return GestureDetector(
                           onTap: () {
-                            Provider.of<ImagesProvider>(context, listen: false)
-                                .pickImg();
+                            provider.pickImg();
                           },
                           child: Container(
                             height: height * 0.4,
@@ -77,7 +69,7 @@ class PostScreen extends StatelessWidget {
                   }),
                   const SizedBox(height: 20),
                   TextFormField(
-                    controller: descriptionCtrl,
+                    controller: provider.descriptionCtrl,
                     maxLines: 3,
                     decoration: InputDecoration(
                       labelText: "Description",
@@ -89,7 +81,7 @@ class PostScreen extends StatelessWidget {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
-                      addPst(context);
+                      provider.addPst(context, false);
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
@@ -109,31 +101,5 @@ class PostScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  addPst(BuildContext context) async {
-    final user = FirebaseAuth.instance.currentUser!.uid;
-    UserModel? username = await FollowService().getUserData(user);
-    ImagePostService services = ImagePostService();
-    final imageProvider = Provider.of<ImagesProvider>(context, listen: false);
-
-    if (imageProvider.pickedImage != null) {
-      await services.addImage(File(imageProvider.pickedImage!.path), context);
-
-      ImagePostModel imModel = ImagePostModel(
-          image: services.url,
-          description: descriptionCtrl.text,
-          uid: user,
-          username: username!.username.toString(),
-          userImage: username.image);
-
-      await services.addPost(imModel);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please select an image.")),
-      );
-    }
-    imageProvider.clearPickedImage();
-    descriptionCtrl.clear();
   }
 }
