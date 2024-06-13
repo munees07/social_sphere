@@ -1,9 +1,10 @@
+// ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:social_sphere/model/usermodel.dart';
 import 'package:social_sphere/service/follow_services.dart';
 
-class FollowServiceController extends ChangeNotifier {
+class FollowProvider extends ChangeNotifier {
   FollowService service = FollowService();
   List<UserModel> followers = [];
 
@@ -34,9 +35,8 @@ class FollowServiceController extends ChangeNotifier {
 
     return await service.isFollowing(userId);
   }
- 
 
   Future<UserModel?> userDataGeting(BuildContext context, String userId) async {
-    return await service.getUserData(context,userId);
+    return await service.getUserData(context, userId);
   }
 }

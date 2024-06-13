@@ -16,7 +16,6 @@ class AuthServices {
   String imageName = DateTime.now().microsecondsSinceEpoch.toString();
   String url = "";
   Reference firebaseStorage = FirebaseStorage.instance.ref();
-
   String collectionRef = "users";
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   late CollectionReference<UserModel> postImgRef = firestore

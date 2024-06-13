@@ -1,4 +1,6 @@
 
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';

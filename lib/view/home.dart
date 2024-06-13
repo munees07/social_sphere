@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -8,6 +9,7 @@ import 'package:social_sphere/controller/home_provider.dart';
 import 'package:social_sphere/controller/signup_provider.dart';
 import 'package:social_sphere/model/postimage_model.dart';
 import 'package:social_sphere/service/image_service.dart';
+import 'package:social_sphere/view/comment.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -122,6 +124,19 @@ class _HomeState extends State<Home> {
                                                     : Colors.black),
                                           ),
                                           Text('$likeCount likes'),
+                                          const Gap(240),
+                                          IconButton(
+                                            onPressed: () {
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          CommentPage(
+                                                              postId: postId)));
+                                            },
+                                            icon: const Icon(
+                                                size: 27,
+                                                CupertinoIcons.chat_bubble),
+                                          ),
                                         ],
                                       );
                                     },

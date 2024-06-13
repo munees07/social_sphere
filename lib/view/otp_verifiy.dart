@@ -20,7 +20,7 @@ class PhoneOtpPage extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Gap(180),
+            const Gap(180),
             Text(
               'Login with Phone!',
               style: TextStyle(
@@ -28,7 +28,7 @@ class PhoneOtpPage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 16),
             ),
-            Gap(100),
+            const Gap(100),
             Form(
               key: formKey,
               child: Padding(
@@ -37,8 +37,8 @@ class PhoneOtpPage extends StatelessWidget {
                   keyboardType: TextInputType.number,
                   controller: phoneCtrl,
                   decoration: InputDecoration(
-                      prefix: Text("+91"),
-                      prefixIcon: Icon(Icons.phone),
+                      prefix: const Text("+91"),
+                      prefixIcon: const Icon(Icons.phone),
                       labelText: "Enter Phone Number",
                       fillColor: Colors.lightBlueAccent.withOpacity(0.2),
                       filled: true,

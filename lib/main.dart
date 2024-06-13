@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_sphere/controller/bottombar_provider.dart';
+import 'package:social_sphere/controller/comment_provider.dart';
 import 'package:social_sphere/controller/follow_provider.dart';
 import 'package:social_sphere/controller/home_provider.dart';
 import 'package:social_sphere/controller/image_provider.dart';
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SignupProvider()),
         ChangeNotifierProvider(create: (context) => ImagesProvider()),
         ChangeNotifierProvider(create: (context) => HomeProvider()),
-        ChangeNotifierProvider(create: (context) => FollowServiceController())
+        ChangeNotifierProvider(create: (context) => FollowProvider()),
+        ChangeNotifierProvider(create: (context) => CommentProvider())
       ],
       child: MaterialApp(
         theme: ThemeData(fontFamily: 'Exo2'),

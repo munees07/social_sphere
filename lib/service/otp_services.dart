@@ -11,7 +11,7 @@ class PhoneOtpAuth {
     try {
       await auth
           .verifyPhoneNumber(
-        timeout: Duration(seconds: 30),
+        timeout: const Duration(seconds: 30),
         phoneNumber: "+91$phone",
         verificationCompleted: (phoneAuthCredential) async {
           return;
