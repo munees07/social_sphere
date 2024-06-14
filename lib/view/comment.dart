@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:social_sphere/controller/comment_provider.dart';
 import 'package:social_sphere/model/comment_model.dart';
 import 'package:social_sphere/service/follow_services.dart';
+import 'package:social_sphere/widgets/loading.dart';
 
 class CommentPage extends StatelessWidget {
   String postId;
@@ -24,7 +25,7 @@ class CommentPage extends StatelessWidget {
           stream: provider.getComments(postId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: spinner);
             } else if (snapshot.hasError) {
               return const Center(
                   child: Text(

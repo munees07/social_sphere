@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:social_sphere/model/usermodel.dart';
 import 'package:social_sphere/service/follow_services.dart';
 import 'package:social_sphere/service/user_services.dart';
+import 'package:social_sphere/widgets/loading.dart';
 
 class AllUserPage extends StatelessWidget {
   const AllUserPage({super.key});
@@ -54,7 +55,7 @@ class AllUserPage extends StatelessWidget {
                               followService.isFollowing(data.uid.toString()),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) {
-                              return const CircularProgressIndicator();
+                              return spinner;
                             }
                             bool isFollowing = snapshot.data!;
                             return ElevatedButton(

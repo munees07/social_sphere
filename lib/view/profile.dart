@@ -6,18 +6,20 @@ import 'package:social_sphere/model/postimage_model.dart';
 import 'package:social_sphere/model/usermodel.dart';
 import 'package:social_sphere/service/follow_services.dart';
 import 'package:social_sphere/service/image_service.dart';
+import 'package:social_sphere/widgets/loading.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     final user = FirebaseAuth.instance.currentUser!.uid;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 70),
         child: FutureBuilder<UserModel?>(
-            future: FollowService().getUserData(context,user),
+            future: FollowService().getUserData(context, user),
             builder: (context, snapshot) {
               UserModel? user = snapshot.data;
               return Column(
@@ -64,8 +66,7 @@ class Profile extends StatelessWidget {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return const Center(
-                              child: CircularProgressIndicator());
+                          return const Center(child: spinner);
                         }
 
                         if (snapshot.hasError) {

@@ -68,13 +68,14 @@ class PostScreen extends StatelessWidget {
                     );
                   }),
                   const SizedBox(height: 20),
-                  TextFormField(
-                    controller: provider.descriptionCtrl,
-                    maxLines: 3,
-                    decoration: InputDecoration(
-                      labelText: "Description",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: provider.descriptionCtrl,
+                      maxLines: 2,
+                      decoration: InputDecoration(
+                        labelText: "Description",
+                        border: UnderlineInputBorder(),
                       ),
                     ),
                   ),
@@ -92,7 +93,7 @@ class PostScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: const Text("Submit"),
+                    child: const Text("Post"),
                   ),
                 ],
               ),
