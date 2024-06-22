@@ -73,7 +73,7 @@ class PostScreen extends StatelessWidget {
                     child: TextFormField(
                       controller: provider.descriptionCtrl,
                       maxLines: 2,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: "Description",
                         border: UnderlineInputBorder(),
                       ),

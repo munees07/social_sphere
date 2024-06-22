@@ -8,12 +8,14 @@ import 'package:social_sphere/controller/home_provider.dart';
 import 'package:social_sphere/controller/image_provider.dart';
 import 'package:social_sphere/controller/signup_provider.dart';
 import 'package:social_sphere/firebase_options.dart';
+import 'package:social_sphere/new.dart';
 import 'package:social_sphere/view/auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
+  // Sample().printUsersToConsole();
 }
 
 class MyApp extends StatelessWidget {
