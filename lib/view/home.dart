@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:social_sphere/controller/home_provider.dart';
 import 'package:social_sphere/controller/signup_provider.dart';
 import 'package:social_sphere/model/postimage_model.dart';
+import 'package:social_sphere/model/usermodel.dart';
+import 'package:social_sphere/service/follow_services.dart';
 import 'package:social_sphere/service/image_service.dart';
 import 'package:social_sphere/view/comment.dart';
 
@@ -21,10 +23,16 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('SOCIAL SPHERE'),
+          title: FutureBuilder<UserModel?>(
+              future: FollowService().getUserData(context, userId),
+              builder: (context, snapshot) {
+                UserModel? user = snapshot.data;
+                return Text(user?.username ?? "");
+              }),
           actions: [
             IconButton(
                 onPressed: () {

@@ -11,11 +11,11 @@ import 'package:social_sphere/firebase_options.dart';
 import 'package:social_sphere/new.dart';
 import 'package:social_sphere/view/auth.dart';
 
-void main() async {
+void main() async { 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
-  // Sample().printUsersToConsole();
+  Sample().printUsersToConsole();
 }
 
 class MyApp extends StatelessWidget {
